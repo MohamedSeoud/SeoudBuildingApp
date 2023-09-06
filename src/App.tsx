@@ -1,17 +1,14 @@
 
-import { BrowserRouter, Routes } from 'react-router-dom'
-import './App.css'
-import UnAuthRoutes from './routes/UnAuthorizedRoutes'
-import AuthRoutes from './routes/AuthorizedRoutes'
+import { BrowserRouter} from 'react-router-dom'
+import AuthRoutes from './routes/AuthRoutes'
+import UnAuthRoutes from './routes/UnAuthRoutes'
 
 function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        {UnAuthRoutes}
-        {AuthRoutes}
-      </Routes>   
+        <AuthRoutes/>
+        <UnAuthRoutes/>
     </BrowserRouter>
   )
 }
