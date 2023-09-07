@@ -3,13 +3,30 @@ import image from '../assets/20944201.jpg'
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 import {  SING_IN_PATH, SING_UP_PATH } from '../helper/navigationPath';
+import { Form, Formik,Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 
+interface ForgotPasswordModel{
+  email:string
+}
 function ForgetPassword() {
+
+  const onSubmit=(values:ForgotPasswordModel)=>{
+    console.log(values)
+  }
+
+  const validationSchema= Yup.object({
+    email:Yup.string().required('Required').email('Email Not Valid')
+  });
+
+  const intialValues = {
+    email:''
+  }
   return (
     <div className=' flex flex-col gap-5  h-fit py-28 w-[100%] px-[30px] overflow-hidden bg-[#d4d4d4]'>
       <div className=' uppercase text-black text-center w-[100%]  overflow-hidden text-5xl font-bold'>
-        Register
+        forgot the password
       </div>
       <div className=' grid grid-cols-2 max-md:grid-cols-1 gap-5 w-[100%]  my-7  overflow-hidden '>
 
@@ -17,13 +34,17 @@ function ForgetPassword() {
           <img src={image} className='rounded-[20px] h-[500px] w-[90%] '/>
 
         </div>
+ 
+      <Formik onSubmit={onSubmit} initialValues={intialValues} validationSchema={validationSchema}
+       validateOnBlur={false} validateOnChange={false}>
+        <Form className='flex flex-col col-span-1 py-5 w-[100%]  justify-center  overflow-hidden gap-y-6'>
 
-        <div className='flex flex-col col-span-1 py-5 w-[100%]  justify-center  overflow-hidden gap-y-6'>
-
-          <input type='text' placeholder='Email address' className='w-[100%] text-2xl px-3 h-14'/>
-
-
-
+        <div>
+          <Field type='email' name='email' placeholder='Email address' className='w-[100%] text-2xl px-3 h-14'/>
+          <div className='text-red-600 text-xl'>
+          <ErrorMessage name='email'/>
+          </div>
+        </div>
           <div className='flex flex-row justify-between'>
             <div>
           <p className=' text-2xl'>Do have an account? <Link to={SING_UP_PATH} className=' text-red-600 cursor-pointer
@@ -36,7 +57,7 @@ function ForgetPassword() {
            </Link>
            </div> 
            <div className='w-[100%] '>
-            <button className=' uppercase text-2xl px-3 h-14 hover:bg-blue-400 bg-blue-600 w-[100%] text-center text-white my-2 '>
+            <button type='submit' className=' uppercase text-2xl px-3 h-14 hover:bg-blue-400 bg-blue-600 w-[100%] text-center text-white my-2 '>
               send rest password </button>
            </div>
            <div className='w-[100%] justify-between items-center flex flex-row '>
@@ -49,7 +70,7 @@ function ForgetPassword() {
            </div>
 
            <div className='w-[100%] '>
-            <button className=' uppercase hover:bg-red-300 text-2xl flex flex-row justify-center items-center  px-3 h-14 bg-red-400 w-[100%] text-center text-white my-2 '>
+            <button type='button' className=' uppercase hover:bg-red-300 text-2xl flex flex-row justify-center items-center  px-3 h-14 bg-red-400 w-[100%] text-center text-white my-2 '>
               
               continue with google
               <Icon icon="flat-color-icons:google" width="50" height="50" />
@@ -57,7 +78,8 @@ function ForgetPassword() {
            </div>
 
 
-        </div>
+        </Form>
+      </Formik>
         <div>
 
         </div>
