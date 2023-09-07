@@ -4,7 +4,7 @@ import Offers from "../pages/Offers"
 import MainLayout from "../components/layout/MainLayout"
 import { useRoutes } from 'react-router-dom';
 import React from 'react'
-import { OFFER_PATH, PROFILE_PATH, SING_IN_PATH } from "../helper/navigationPath";
+import { HOME_PATH, OFFER_PATH, PROFILE_PATH} from "../helper/navigationPath";
 
 export default function AuthRoutes() {
     const index = useRoutes([
@@ -13,7 +13,7 @@ export default function AuthRoutes() {
             element:<MainLayout/>,
             children:[
                 {
-                    path:SING_IN_PATH,
+                    path:HOME_PATH,
                     element: <Home/>
                 },
                 {

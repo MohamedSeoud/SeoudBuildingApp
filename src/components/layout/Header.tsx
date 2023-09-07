@@ -15,7 +15,7 @@ function Header() {
 const[showNav, setShowNav] = useState(false);
   return (
     <>
-    <div className=' flex flex-col  w-[100%]'>
+    <div className=' flex flex-col fixed    w-screen overflow-hidden '>
     <div className='  py-2 bg-green-600  px-9  flex flex-row items-center py-auto justify-between w-[100%]'>
       <NavLink to={HOME_PATH} className=''> <img src={image} className="max-h-[35px] my-3 w-auto" alt="" /> </NavLink>
       <div className='bg-green-600   max-sm:hidden flex     z-10 text-white  flex-row gap-2'>
