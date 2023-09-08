@@ -1,16 +1,27 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { BsList } from 'react-icons/bs';
 
 import image from '../../assets/icon-close.png';
 import { NavLink, useLocation } from 'react-router-dom';
-import { HOME_PATH, OFFER_PATH, SING_IN_PATH } from '../../helper/enum/navigationPath';
+import { HOME_PATH, OFFER_PATH, PROFILE_PATH, SING_IN_PATH } from '../../helper/enum/navigationPath';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 function Header() {
   const location =useLocation();
+  const[navName,setNavName]=useState("Signin")
   const checkLocation =(path:string)=>{
+  
     if(location.pathname===path)return true;
     return false;
   }
+  const auth =getAuth()
+  useEffect(()=>{
+    onAuthStateChanged(auth,(user)=>{
+      if(user) {setNavName(user.displayName!);}
+      else{setNavName("Signin")}
+    })
+
+  },[auth])
 
 const[showNav, setShowNav] = useState(false);
   return (
@@ -27,8 +38,9 @@ const[showNav, setShowNav] = useState(false);
           offer
         </NavLink>
 
-        <NavLink to={SING_IN_PATH} className={`hover:bg-blue-600 cursor-pointer mx-3 p-4 rounded-3xl uppercase ${checkLocation(SING_IN_PATH)?"bg-blue-600":""}`}>
-          Signin
+        <NavLink to={SING_IN_PATH} className={`hover:bg-blue-600 cursor-pointer mx-3 p-4 rounded-3xl uppercase
+         ${checkLocation(SING_IN_PATH) || checkLocation(PROFILE_PATH) ?"bg-blue-600":""}`}>
+          {navName}
         </NavLink>
 
 
@@ -48,8 +60,9 @@ const[showNav, setShowNav] = useState(false);
         </NavLink>
 
 
-        <NavLink to={SING_IN_PATH} className={`hover:bg-blue-600 cursor-pointer mx-3 z-10 p-4 rounded-3xl uppercase ${checkLocation(SING_IN_PATH)?"bg-blue-600":""}`}>
-          Signin
+        <NavLink to={SING_IN_PATH} className={`hover:bg-blue-600 cursor-pointer mx-3 z-10 p-4 rounded-3xl uppercase 
+        ${checkLocation(SING_IN_PATH) || checkLocation(PROFILE_PATH) ?"bg-blue-600":""}`}>
+          {navName}
         </NavLink>
 
  
