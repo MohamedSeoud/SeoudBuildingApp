@@ -2,22 +2,30 @@ import React, { useState } from 'react'
 import image from '../assets/20944201.jpg'
 import { Icon } from '@iconify/react';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
-import { FORGET_PASSWORD_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
+import { Link, useNavigate } from 'react-router-dom';
+import { FORGET_PASSWORD_PATH, HOME_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
 import { Form, Formik,Field, ErrorMessage } from 'formik';
 import * as Yup from "yup"
 import { SignInFormModel } from '../helper/types';
+import { FirebaseSignIn } from '../firebase/Firebase';
 
 
 function Signin() {
   const[eyeShow,setEyeShow] =useState(true);
+  const navigate=useNavigate();
   const initialValues = {
     email:"",
     password:""
   }
 
-  const onSubmit =(values:SignInFormModel)=>{
+  const onSubmit =async(values:SignInFormModel,{resetForm}:{resetForm:()=>void})=>{
     console.log(values)
+    const value =await FirebaseSignIn(values);
+    if(value){
+      resetForm();
+      navigate(HOME_PATH)
+    }
+    return;
   }
 
   const validationSchema= Yup.object({
