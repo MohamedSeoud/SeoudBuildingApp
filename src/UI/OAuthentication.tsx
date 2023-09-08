@@ -1,12 +1,11 @@
-import React from 'react'
 import { FcGoogle } from 'react-icons/fc'
-import toastNotification from './toastNotification'
-import { tostifyVariables } from './enum/tostifyVariables'
+import toastNotification from '../helper/toastNotification'
+import { tostifyVariables } from '../helper/enum/tostifyVariables'
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { db } from '../firebase/Firebase'
 import { useNavigate } from 'react-router'
-import { HOME_PATH } from './enum/navigationPath'
+import { HOME_PATH } from '../helper/enum/navigationPath'
 
 function OAuthentication() {
 

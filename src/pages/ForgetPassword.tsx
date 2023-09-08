@@ -1,11 +1,14 @@
 import image from '../assets/20944201.jpg'
-import { Link } from 'react-router-dom';
 import {  SING_IN_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
-import { Form, Formik,Field, ErrorMessage } from 'formik';
+import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { ForgotPasswordModel } from '../helper/types';
-import OAuthentication from '../helper/OAuthentication';
+import OAuthentication from '../UI/OAuthentication';
 import { FirebaseForgetPassword } from '../firebase/Firebase';
+import InputField from '../UI/InputField';
+import ButtonSubmit from '../UI/ButtonSubmit';
+import ORPart from '../UI/ORPart';
+import OptionPart from '../UI/OptionPart';
 
 
 
@@ -38,41 +41,11 @@ function ForgetPassword() {
       <Formik onSubmit={onSubmit} initialValues={intialValues} validationSchema={validationSchema}
        validateOnBlur={false} validateOnChange={false}>
         <Form className='flex flex-col col-span-1 py-5 w-[100%]  justify-center  overflow-hidden gap-y-6'>
-
-        <div>
-          <Field type='email' name='email' placeholder='Email address' className='w-[100%] text-2xl px-3 h-14'/>
-          <div className='text-red-600 text-xl'>
-          <ErrorMessage name='email'/>
-          </div>
-        </div>
-          <div className='flex flex-row justify-between'>
-            <div>
-          <p className=' text-2xl'>Do have an account? <Link to={SING_UP_PATH} className=' text-red-600 cursor-pointer
-           hover:border-b-2
-           border-red-600 border-spacing-2'>Sign up</Link></p>
-           </div>
-           <Link to={SING_IN_PATH} className=' text-2xl max-h-[31px] text-blue-600 cursor-pointer hover:border-b-2  border-spacing-2
-            border-blue-600'>
-            Sign in instead?
-           </Link>
-           </div> 
-           <div className='w-[100%] '>
-            <button type='submit' className=' uppercase text-2xl px-3 h-14 hover:bg-blue-400 bg-blue-600 w-[100%] text-center text-white my-2 '>
-              send rest password </button>
-           </div>
-           <div className='w-[100%] justify-between items-center flex flex-row '>
-            <div className='w-[45%]  bg-gray-400 h-[1.5px]'></div>
-            <div className='w-[10%]  uppercase  text-center font-bold text-xl'> OR</div>
-
-            <div className='w-[45%]  bg-gray-400 h-[1.5px]'></div>
-
-            
-           </div>
-
+            <InputField name='email' placeholder='Email address'/> 
+            <OptionPart name1={`Don't have an account?`} name2='Sign in instead?' path1={SING_UP_PATH} path2={SING_IN_PATH} option1='Register'/>
+           <ButtonSubmit name=' send rest password ' />
+           <ORPart/>
            <OAuthentication/>
-
-
-
         </Form>
       </Formik>
         <div>

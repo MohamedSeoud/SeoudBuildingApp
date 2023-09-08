@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { BsList } from 'react-icons/bs';
 
 import image from '../../assets/icon-close.png';

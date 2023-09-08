@@ -22,3 +22,8 @@ export interface SignUpDbModel{
     password:string,
     timeStap:FieldValue
 }
+
+export interface ProfileModel{
+    name:string,
+    email:string,
+}

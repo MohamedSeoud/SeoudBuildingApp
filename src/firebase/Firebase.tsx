@@ -75,3 +75,17 @@ export async function FirebaseForgetPassword (formData:ForgotPasswordModel){
   }
 
 }
+
+export async function FirebaseLogout (){
+  try{
+    const auth = getAuth();
+    await auth.signOut();
+    toastNotification({text:"Successfully Logged out",choice:tostifyVariables.success})
+  }
+  catch(err){
+    console.log(err)
+    toastNotification({text:"Something went wrong with Logging out",choice:tostifyVariables.error})
+    return false
+  }
+
+}
