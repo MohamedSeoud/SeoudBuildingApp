@@ -38,7 +38,7 @@ const[showNav, setShowNav] = useState(false);
           offer
         </NavLink>
 
-        <NavLink to={SING_IN_PATH} className={`hover:bg-blue-600 cursor-pointer mx-3 p-4 rounded-3xl uppercase
+        <NavLink to={checkLocation(SING_IN_PATH) ? SING_IN_PATH : PROFILE_PATH} className={`hover:bg-blue-600 cursor-pointer mx-3 p-4 rounded-3xl uppercase
          ${checkLocation(SING_IN_PATH) || checkLocation(PROFILE_PATH) ?"bg-blue-600":""}`}>
           {navName}
         </NavLink>
@@ -60,7 +60,7 @@ const[showNav, setShowNav] = useState(false);
         </NavLink>
 
 
-        <NavLink to={SING_IN_PATH} className={`hover:bg-blue-600 cursor-pointer mx-3 z-10 p-4 rounded-3xl uppercase 
+        <NavLink to={checkLocation(SING_IN_PATH)? SING_IN_PATH : PROFILE_PATH} className={`hover:bg-blue-600 cursor-pointer mx-3 z-10 p-4 rounded-3xl uppercase 
         ${checkLocation(SING_IN_PATH) || checkLocation(PROFILE_PATH) ?"bg-blue-600":""}`}>
           {navName}
         </NavLink>
