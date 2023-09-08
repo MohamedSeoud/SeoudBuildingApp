@@ -2,7 +2,7 @@ import { useRoutes } from "react-router-dom";
 import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
 import ForgetPassword from "../pages/ForgetPassword";
-import { FORGET_PASSWORD_PATH, SING_IN_PATH, SING_UP_PATH } from "../helper/navigationPath";
+import { FORGET_PASSWORD_PATH, SING_IN_PATH, SING_UP_PATH } from "../helper/enum/navigationPath";
 import MainLayout from "../components/layout/MainLayout";
 
 

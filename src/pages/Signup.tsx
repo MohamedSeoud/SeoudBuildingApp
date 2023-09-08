@@ -1,19 +1,21 @@
 import React, { useState } from 'react' 
 import image from '../assets/20944201.jpg'
-import { Icon } from '@iconify/react';
+import { FcGoogle } from 'react-icons/fc';
+
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
-import { FORGET_PASSWORD_PATH, SING_IN_PATH } from '../helper/navigationPath';
+import { Link, useNavigate } from 'react-router-dom';
+import { FORGET_PASSWORD_PATH, HOME_PATH, SING_IN_PATH } from '../helper/enum/navigationPath';
 import { ErrorMessage, Field,Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import { SignUpModel } from '../helper/types';
+import { FirebaseSignUp } from '../firebase/Firebase';
+import toastNotification from '../helper/toastNotification';
+import { tostifyVariables } from '../helper/enum/tostifyVariables';
 
-interface SignUpModel{
-  name:string,
-  email:string,
-  password:string
-}
+
 function Signup() 
 {
+  const navigate = useNavigate();
   const[eyeShow,setEyeShow] =useState(true);
   const validationSchema = Yup.object({
     name:Yup.string().required('Required'),
@@ -25,8 +27,15 @@ function Signup()
     email:'',
     password:''
   }
-  const onSubmit =(values:SignUpModel)=>{
+  const onSubmit = async (values:SignUpModel,{resetForm}:{resetForm:()=>void})=>{
    console.log(values)
+   const value = await FirebaseSignUp(values);
+   if(value)
+   {
+   resetForm();
+   navigate(HOME_PATH);
+   toastNotification({text:"Registered Successfully",choice:tostifyVariables.success})
+   }
   }
   
   return (
@@ -41,7 +50,7 @@ function Signup()
 
         </div>
        <Formik initialValues={initialValues} onSubmit={onSubmit}  validationSchema={validationSchema}
-       validateOnChange={false} validateOnBlur={false}
+       validateOnChange={false} validateOnBlur={false}  
        >
           <Form className='flex flex-col col-span-1 py-5 w-[100%]  overflow-hidden gap-y-6'>
          <div>
@@ -61,9 +70,9 @@ function Signup()
         <div className='flex flex-col'>
             <div className='w-[100%] h-fit flex flex-col justify-end items-end'>
             <Field name='password' type={`${eyeShow?"password":"text"}`} placeholder='Password' className='w-[100%] text-2xl px-3 h-14'/>
-            <div className=' relative bottom-11  px-3 cursor-pointer' onClick={()=>setEyeShow(!eyeShow)}>
+            <div className=' relative bottom-11   px-3 cursor-pointer' onClick={()=>setEyeShow(!eyeShow)}>
               { eyeShow?
-            <BsFillEyeFill size="2rem" />
+            <BsFillEyeFill size="2rem"  />
             :
             <BsFillEyeSlashFill size="2rem"/>
               }
@@ -101,10 +110,12 @@ function Signup()
               </div>
 
               <div className='w-[100%] '>
-              <button type='button' className=' uppercase hover:bg-red-300 text-2xl flex flex-row justify-center items-center  px-3 h-14 bg-red-400 w-[100%] text-center text-white my-2 '>
+              <button type='button' className=' uppercase hover:bg-red-400 text-2xl flex flex-row justify-center items-center  px-3 h-14 bg-red-500 w-[100%] text-center text-white my-2 '>
                 
                 continue with google
-                <Icon icon="flat-color-icons:google" width="50" height="50" />
+                <span className=' bg-white mx-4 px-1 rounded-[40px]' >
+                <FcGoogle size="2.5rem"  />
+                </span>
                 </button>
               </div>
 

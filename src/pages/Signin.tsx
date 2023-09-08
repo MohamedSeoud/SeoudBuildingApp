@@ -3,14 +3,12 @@ import image from '../assets/20944201.jpg'
 import { Icon } from '@iconify/react';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
-import { FORGET_PASSWORD_PATH, SING_UP_PATH } from '../helper/navigationPath';
+import { FORGET_PASSWORD_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
 import { Form, Formik,Field, ErrorMessage } from 'formik';
 import * as Yup from "yup"
+import { SignInFormModel } from '../helper/types';
 
-interface SignInFormModel{
-  email: string;
-  password: string;
-}
+
 function Signin() {
   const[eyeShow,setEyeShow] =useState(true);
   const initialValues = {

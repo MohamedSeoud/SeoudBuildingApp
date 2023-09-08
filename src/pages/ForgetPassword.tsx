@@ -2,14 +2,13 @@ import React from 'react'
 import image from '../assets/20944201.jpg'
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
-import {  SING_IN_PATH, SING_UP_PATH } from '../helper/navigationPath';
+import {  SING_IN_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
 import { Form, Formik,Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { ForgotPasswordModel } from '../helper/types';
 
 
-interface ForgotPasswordModel{
-  email:string
-}
+
 function ForgetPassword() {
 
   const onSubmit=(values:ForgotPasswordModel)=>{
