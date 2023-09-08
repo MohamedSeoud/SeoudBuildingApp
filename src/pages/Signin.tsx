@@ -1,6 +1,5 @@
 import React, { useState } from 'react' 
 import image from '../assets/20944201.jpg'
-import { Icon } from '@iconify/react';
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
 import { FORGET_PASSWORD_PATH, HOME_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
@@ -8,6 +7,7 @@ import { Form, Formik,Field, ErrorMessage } from 'formik';
 import * as Yup from "yup"
 import { SignInFormModel } from '../helper/types';
 import { FirebaseSignIn } from '../firebase/Firebase';
+import OAuthentication from '../helper/OAuthentication';
 
 
 function Signin() {
@@ -101,15 +101,7 @@ function Signin() {
             
            </div>
 
-           <div className='w-[100%] '>
-            <button type='button' className=' uppercase hover:bg-red-300 text-2xl flex flex-row justify-center items-center  px-3 h-14 bg-red-400 w-[100%] text-center text-white my-2 '>
-              
-              continue with google
-              <Icon icon="flat-color-icons:google" width="50" height="50" />
-              </button>
-           </div>
-
-
+           <OAuthentication/>
         </Form>
         </Formik>
 

@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {doc, getFirestore, serverTimestamp, setDoc} from 'firebase/firestore'
-import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
-import { SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
+import {createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
+import { ForgotPasswordModel, SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
 import toastNotification from "../helper/toastNotification";
 import { tostifyVariables } from "../helper/enum/tostifyVariables";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -60,4 +60,18 @@ export async function FirebaseSignIn (formData:SignInFormModel){
     return false
   }
   
+}
+
+export async function FirebaseForgetPassword (formData:ForgotPasswordModel){
+  try{
+    const auth = getAuth();
+    await sendPasswordResetEmail(auth,formData.email);
+    toastNotification({text:"Email was sent Successfully!",choice:tostifyVariables.success})
+  }
+  catch(err){
+    console.log(err)
+    toastNotification({text:"Something went wrong with the Email",choice:tostifyVariables.error})
+    return false
+  }
+
 }

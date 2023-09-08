@@ -1,11 +1,11 @@
-import React from 'react' 
 import image from '../assets/20944201.jpg'
-import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
 import {  SING_IN_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
 import { Form, Formik,Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { ForgotPasswordModel } from '../helper/types';
+import OAuthentication from '../helper/OAuthentication';
+import { FirebaseForgetPassword } from '../firebase/Firebase';
 
 
 
@@ -13,6 +13,7 @@ function ForgetPassword() {
 
   const onSubmit=(values:ForgotPasswordModel)=>{
     console.log(values)
+    FirebaseForgetPassword(values);
   }
 
   const validationSchema= Yup.object({
@@ -68,13 +69,8 @@ function ForgetPassword() {
             
            </div>
 
-           <div className='w-[100%] '>
-            <button type='button' className=' uppercase hover:bg-red-300 text-2xl flex flex-row justify-center items-center  px-3 h-14 bg-red-400 w-[100%] text-center text-white my-2 '>
-              
-              continue with google
-              <Icon icon="flat-color-icons:google" width="50" height="50" />
-              </button>
-           </div>
+           <OAuthentication/>
+
 
 
         </Form>
