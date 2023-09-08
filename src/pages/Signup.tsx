@@ -1,6 +1,5 @@
 import React, { useState } from 'react' 
 import image from '../assets/20944201.jpg'
-import { FcGoogle } from 'react-icons/fc';
 
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,6 +10,7 @@ import { SignUpModel } from '../helper/types';
 import { FirebaseSignUp } from '../firebase/Firebase';
 import toastNotification from '../helper/toastNotification';
 import { tostifyVariables } from '../helper/enum/tostifyVariables';
+import OAuthentication from '../helper/OAuthentication';
 
 
 function Signup() 
@@ -84,7 +84,6 @@ function Signup()
               <ErrorMessage name='password'/>
             </div>
         </div>
-
             <div className='flex flex-row justify-between'>
               <div>
             <p className=' text-2xl'>Have an account? <Link to={SING_IN_PATH} className=' text-red-600 cursor-pointer
@@ -103,23 +102,9 @@ function Signup()
               <div className='w-[100%] justify-between items-center flex flex-row '>
               <div className='w-[45%]  bg-gray-400 h-[1.5px]'></div>
               <div className='w-[10%]  uppercase  text-center font-bold text-xl'> OR</div>
-
-              <div className='w-[45%]  bg-gray-400 h-[1.5px]'></div>
-
-              
+              <div className='w-[45%]  bg-gray-400 h-[1.5px]'></div>   
               </div>
-
-              <div className='w-[100%] '>
-              <button type='button' className=' uppercase hover:bg-red-400 text-2xl flex flex-row justify-center items-center  px-3 h-14 bg-red-500 w-[100%] text-center text-white my-2 '>
-                
-                continue with google
-                <span className=' bg-white mx-4 px-1 rounded-[40px]' >
-                <FcGoogle size="2.5rem"  />
-                </span>
-                </button>
-              </div>
-
-
+              <OAuthentication/>
           </Form>
         </Formik>
 
