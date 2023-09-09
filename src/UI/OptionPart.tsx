@@ -9,8 +9,9 @@ interface Props{
     name2:string,
     path2?:string,
     func?:()=>void
+    onClick?:()=>void
 }
-function OptionPart({name1,path1,option1,name2,path2,func}:Props) {
+function OptionPart({name1,path1,option1,name2,path2,func,onClick}:Props) {
    const navigate = useNavigate();
 
    const onclickHandler =()=> {
@@ -21,9 +22,17 @@ function OptionPart({name1,path1,option1,name2,path2,func}:Props) {
   return (
   <div className='flex flex-row justify-between w-[100%]'>
         <div>
-        <p className=' text-2xl'>{name1} <Link to={path1} className=' text-red-600 cursor-pointer
+        <p className=' text-2xl'>{name1} 
+        { onClick ===undefined?
+        <Link to={path1} className=' text-red-600 cursor-pointer
         hover:border-b-2
-        border-red-600 border-spacing-2'> {option1} </Link></p>
+        border-red-600 border-spacing-2'> {option1} </Link>
+        :
+        <span onClick={onClick} className=' text-red-600 cursor-pointer
+        hover:border-b-2
+        border-red-600 border-spacing-2 w-fit'> {option1} </span>
+         }
+        </p>
         </div>
         { path2 ?<Link to={path2} className=' text-2xl max-h-[31px] text-blue-600 cursor-pointer   
             '>

@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {doc, getFirestore, serverTimestamp, setDoc} from 'firebase/firestore'
+import {doc, getFirestore, serverTimestamp, setDoc, updateDoc} from 'firebase/firestore'
 import {createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import { ForgotPasswordModel, SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
 import toastNotification from "../helper/toastNotification";
@@ -87,5 +87,28 @@ export async function FirebaseLogout (){
     toastNotification({text:"Something went wrong with Logging out",choice:tostifyVariables.error})
     return false
   }
+
+}
+
+export async function FirebaseEditEmail (formData:{name:string}){
+  try{
+    const auth = getAuth();
+
+      auth.currentUser && await updateProfile(auth.currentUser, {
+        displayName:formData.name
+      })
+
+      auth?.currentUser?.uid && await updateDoc(doc(db,"users",auth.currentUser.uid),{
+        name:name
+      })
+      toastNotification({text:"Successfully Updated!",choice:tostifyVariables.success});
+      return true
+  }
+  catch(err){
+    console.log(err)
+    toastNotification({text:"Something went wrong with the Updating",choice:tostifyVariables.error})
+    return false
+  }
+  return false;
 
 }

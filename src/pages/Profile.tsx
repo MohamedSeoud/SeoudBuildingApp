@@ -5,11 +5,17 @@ import ButtonSubmit from '../UI/ButtonSubmit';
 import OptionPart from '../UI/OptionPart';
 import { SING_UP_PATH } from '../helper/enum/navigationPath';
 import { getAuth } from 'firebase/auth';
-import { FirebaseLogout } from '../firebase/Firebase';
+import { FirebaseEditEmail, FirebaseLogout } from '../firebase/Firebase';
 import InputField from '../UI/InputField';
+import image from '../assets/profile.jpg';
+import { useState } from 'react';
 
 function Profile() {
-  const auth = getAuth()
+  const auth = getAuth();
+  const [updateProfile,setUpdateProfile] = useState(false)
+  const onChooseHandler =()=>{
+    setUpdateProfile(true)
+  }
 
   const validationSchema = Yup.object({
     name:Yup.string().required('Required'),
@@ -19,26 +25,41 @@ function Profile() {
     name:auth.currentUser?.displayName ||"",
     email:auth.currentUser?.email ||""
   }
+  const onDiscardHandler =()=>{
+    setUpdateProfile(false)
+  }
 
-  const onSubmit =(values:ProfileModel)=>{
-    console.log(values)
+  const onSubmit =async(values:ProfileModel)=>{
+    console.log('here')
+    const value = await FirebaseEditEmail({name:values.name});
+    if(value) setUpdateProfile(false);
   }
   return (
-     <div className=' flex flex-col gap-5 min-h-screen  justify-center items-center h-fit w-[100%] px-[30px] overflow-hidden bg-[#d4d4d4]'>
-      <div className=' uppercase text-black text-center w-[100%]  overflow-hidden text-5xl font-bold'>
+     <div className=' flex flex-col gap-4 min-h-screen   justify-center items-center h-fit w-[100%] px-[30px] overflow-hidden bg-[#d4d4d4]'>
+      <div className=' uppercase text-black text-center w-[100%]  mt-24  overflow-hidden text-5xl font-bold'>
         My profile
       </div>
-
+      <div className=' w-64 h-64'>
+        <img className=' rounded-[200px]' src={image}/>
+      </div>
+      { !updateProfile ?
+      <div className=' flex flex-col lg:w-fit md:w-[80%] w-[100%] justify-center text-center items-center'>
+      <div  className=' px-3 text-[35px] w-[100%] '> Name :  {initialValues.name}</div>
+      <div  className=' px-3 text-[35px] w-[100%] '> Email  : {initialValues.email} </div>
+      <ButtonSubmit name='Update Profile' onClick={onChooseHandler} />
+      </div>
+      :
       <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema} 
       validateOnBlur={false} validateOnChange={false}>
-        <Form className='flex flex-col gap-4 py-5 justify-center items-center lg:w-[50%] md:w-[80%] w-[100%] '>
-          <InputField name='name' className=' px-3 h-16 text-[35px] w-[100%] '  />
-          <InputField name='email' className=' px-3 h-16 text-[35px] w-[100%] '/>
-          <OptionPart name1={`Don't you want to change your name?`} name2='Sign out' func={FirebaseLogout}
-            path1={SING_UP_PATH}  option1='Edit'/>
-          <ButtonSubmit name='Update Profile'/>
+        <Form className='flex flex-col gap-4 py-5 justify-center items-center lg:w-[40%] md:w-[80%] w-[100%] '>
+          <InputField name='name' className=' px-3 h-14 text-[35px] w-[100%]  '  />
+          <InputField disabled='true' name='email' className=' px-3 h-14 text-[35px] w-[100%] '/>
+          <OptionPart name1={`Wanna discard changes ?`} name2='Sign out' func={FirebaseLogout} onClick={onDiscardHandler}
+            path1={SING_UP_PATH}  option1='discard changes'/>
+          <ButtonSubmit disable='dd'  name='Apply Changes'/>
         </Form>
       </Formik>
+      }
 
     </div>
   )
