@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react'
+import React  from 'react'
 import { SellOrRentModel } from '../helper/types'
 import * as Yup from "yup"
 import { Form, Formik } from 'formik'
@@ -63,10 +63,12 @@ function CreateListing() {
              bg-white'>
             <input type='file' name='image' className='text-center flex flex-col w-[100%] h-[100%]
              justify-center items-center border-[3px] opacity-0 ' accept="image/*"
-             onChange={(event: ChangeEvent<HTMLInputElement|string> )=>{
+             onChange={(event: React.ChangeEvent<HTMLInputElement> )=>{
+                const { target } = event
+                const{files} =   target
                 if (!event?.target?.files) return;
-                event?.currentTarget && setFieldValue("image",  event?.currentTarget?.files[0]);
-
+                 files?.length && setFieldValue("image", files[0] );
+                 console.log(files)
              }}
              />
                 
