@@ -2,7 +2,7 @@ import Profile from "../pages/Profile"
 import MainLayout from "../components/layout/MainLayout"
 import { useRoutes } from 'react-router-dom';
 import {  PROFILE_PATH} from "../helper/enum/navigationPath";
-import CheckAuthRoute from "../components/layout/CheckAuthRoute";
+import CheckAuthRoute from "../components/CheckAuthRoute";
 
 export default function AuthRoutes() {
     const index = useRoutes([
