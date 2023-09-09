@@ -1,6 +1,6 @@
-import { Field } from 'formik'
+import { ErrorMessage, Field } from 'formik'
 
-function RadioButton({name,value1,value2,title,name2,name3}:{name:string,value1:string,title:string,value2:string,name2:string,name3:string}) {
+function RadioButton({name,value1,value2,title,name2,name3}:{name:string,value1:string|boolean,title:string,value2:string|boolean,name2:string,name3:string}) {
 
 
   return (
@@ -24,6 +24,10 @@ function RadioButton({name,value1,value2,title,name2,name3}:{name:string,value1:
             </span>
         </label>
         </div>
+        <div className=' text-red-600 text-xl relative right-3'>
+                <ErrorMessage name={`${name}`}/>
+                
+           </div>
 
         </div>
 
@@ -40,7 +44,12 @@ function RadioButton({name,value1,value2,title,name2,name3}:{name:string,value1:
                 <span className="text-sm uppercase ">{name3}</span>
             </span>
         </label>
+        <div className=' text-red-600 text-xl relative py-2'>
+                <ErrorMessage name={`${name}`}/>
+           </div>
+
         </div>
+        
     </div>
   )
 }
