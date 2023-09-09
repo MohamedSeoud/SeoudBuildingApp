@@ -37,7 +37,7 @@ function Signin() {
 
 
   return (
-    <div className=' flex flex-col gap-5  h-fit py-28 w-[100%] px-[30px] overflow-hidden bg-[#d4d4d4]'>
+    <div className=' flex flex-col gap-5  h-fit py-28 w-[100%] px-[30px] overflow-hidden bg-green-100'>
       <div className=' uppercase text-black text-center w-[100%]  overflow-hidden text-5xl font-bold'>
         sing in
       </div>

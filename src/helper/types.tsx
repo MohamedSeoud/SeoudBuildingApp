@@ -27,3 +27,18 @@ export interface ProfileModel{
     name:string,
     email:string,
 }
+
+export interface SellOrRentModel{
+    sellOrRent:string,
+    name:string,
+    beds:number,
+    baths:number,
+    parkingSpot:boolean,
+    furnished:boolean,
+    address:string,
+    description:string,
+    offer:boolean,
+    regularPrice:number,
+    image:File|null
+
+}

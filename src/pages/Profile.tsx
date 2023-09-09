@@ -3,12 +3,13 @@ import { ProfileModel } from '../helper/types';
 import * as Yup from 'yup';
 import ButtonSubmit from '../UI/ButtonSubmit';
 import OptionPart from '../UI/OptionPart';
-import { SING_UP_PATH } from '../helper/enum/navigationPath';
+import { CREATE_LISTING_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
 import { getAuth } from 'firebase/auth';
 import { FirebaseEditEmail, FirebaseLogout } from '../firebase/Firebase';
 import InputField from '../UI/InputField';
 import image from '../assets/profile.jpg';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Profile() {
   const auth = getAuth();
@@ -35,7 +36,7 @@ function Profile() {
     if(value) setUpdateProfile(false);
   }
   return (
-     <div className=' flex flex-col gap-4 min-h-screen   justify-center items-center h-fit w-[100%] px-[30px] overflow-hidden bg-[#d4d4d4]'>
+     <div className=' flex flex-col gap-4 min-h-screen   justify-center items-center h-fit w-[100%] px-[30px] overflow-hidden bg-green-100'>
       <div className=' uppercase text-black text-center w-[100%]  mt-24  overflow-hidden text-5xl font-bold'>
         My profile
       </div>
@@ -43,10 +44,16 @@ function Profile() {
         <img className=' rounded-[200px]' src={image}/>
       </div>
       { !updateProfile ?
-      <div className=' flex flex-col lg:w-fit md:w-[80%] w-[100%] justify-center text-center items-center'>
+      <div className=' flex flex-col gap-5 lg:w-fit md:w-[80%] w-[100%] justify-center text-center items-center'>
+        <div>
       <div  className=' px-3 text-[35px] w-[100%] '> Name :  {initialValues.name}</div>
       <div  className=' px-3 text-[35px] w-[100%] '> Email  : {initialValues.email} </div>
-      <ButtonSubmit name='Update Profile' onClick={onChooseHandler} />
+      </div>
+      <OptionPart name1={`Wanna update your profile ?`} name2='Sign out' func={FirebaseLogout} onClick={onChooseHandler}
+            path1={SING_UP_PATH}  option1='Edit'/>
+
+      <Link to={CREATE_LISTING_PATH} className='w-[100%]'><ButtonSubmit name='Sell or rent your house' icon={true} /></Link>
+
       </div>
       :
       <Formik onSubmit={onSubmit} initialValues={initialValues} validationSchema={validationSchema} 
