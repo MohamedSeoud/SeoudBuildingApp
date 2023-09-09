@@ -56,7 +56,7 @@ function Profile() {
           <InputField disabled='true' name='email' className=' px-3 h-14 text-[35px] w-[100%] '/>
           <OptionPart name1={`Wanna discard changes ?`} name2='Sign out' func={FirebaseLogout} onClick={onDiscardHandler}
             path1={SING_UP_PATH}  option1='discard changes'/>
-          <ButtonSubmit disable='dd'  name='Apply Changes'/>
+          <ButtonSubmit   name='Apply Changes'/>
         </Form>
       </Formik>
       }
