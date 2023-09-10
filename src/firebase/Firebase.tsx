@@ -1,10 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {DocumentData, addDoc, collection, doc, getDocs, getFirestore, query, serverTimestamp, setDoc, updateDoc, where} from 'firebase/firestore'
+import {DocumentData, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query,
+   serverTimestamp, setDoc, updateDoc, where} from 'firebase/firestore'
 import {createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import { ForgotPasswordModel, SellOrRent,  SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
 import toastNotification from "../helper/toastNotification";
 import { tostifyVariables } from "../helper/enum/tostifyVariables";
+import { ref, uploadBytesResumable, getDownloadURL, getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -130,7 +132,7 @@ export async function FirebaseAddData (formData:SellOrRent){
 
 }
 
-export async function FirebaseFetchData (){
+export async function FirebaseFetchData():Promise<DocumentData[]> {
   try{
 
     const auth = getAuth();
@@ -153,8 +155,67 @@ export async function FirebaseFetchData (){
   catch(err){
     console.log('ssssss',err)
     toastNotification({text:"Something went wrong with getting data",choice:tostifyVariables.error})
-    return false
+    return [] as DocumentData[]
   }
 
 }
 
+export async function saveImage( image:File ){
+  try{ 
+  const auth = getAuth();
+  const storage = getStorage();
+  const fileName = `${auth.currentUser?.uid}-${image.name}`;
+  const storageRef = ref(storage, fileName);
+  const uploadTask = uploadBytesResumable(storageRef, image);
+   uploadTask.on('state_changed', 
+(snapshot) => {
+const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+console.log('Upload is ' + progress + '% done');
+switch (snapshot.state) {
+  case 'paused':
+    console.log('Upload is paused');
+    break;
+  case 'running':
+    console.log('Upload is running');
+    break;
+}
+}, 
+(error) => {
+console.log("Handle unsuccessful uploads" ,error)
+}, 
+ async():Promise<string> => {
+return await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+  console.log('File available at', downloadURL);
+   return downloadURL
+});
+}
+);
+
+return await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+console.log('File available at', downloadURL);
+return downloadURL
+});
+  }
+  catch(err){
+    console.log(err)
+    toastNotification({text:"Something went wrong with the Updating",choice:tostifyVariables.error})
+  }
+
+}
+
+export  function FirebaseDeleteItem(listingId:string) {
+ return async()=> { try{
+  console.log('cccccccc')
+
+    await deleteDoc(doc(db,"listings",listingId));
+    return true
+  }
+  catch(err){
+    console.log('ssssss',err)
+    toastNotification({text:"Something went wrong with getting data",choice:tostifyVariables.error})
+    return false
+
+  }
+}
+
+}

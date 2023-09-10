@@ -5,16 +5,22 @@ import ButtonSubmit from '../UI/ButtonSubmit';
 import OptionPart from '../UI/OptionPart';
 import { CREATE_LISTING_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
 import { getAuth } from 'firebase/auth';
-import { FirebaseEditEmail, FirebaseFetchData, FirebaseLogout } from '../firebase/Firebase';
+import { FirebaseDeleteItem, FirebaseEditEmail, FirebaseFetchData, FirebaseLogout } from '../firebase/Firebase';
 import InputField from '../UI/InputField';
 import image from '../assets/profile.jpg';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ListHouseCard from '../components/ListHouseCard';
+import Spinner from '../components/Spinner';
+import { DocumentData } from 'firebase/firestore';
+import { SwalDeleteFire } from '../components/SwalDeleteFire';
 
 function Profile() {
   const auth = getAuth();
-  const [updateProfile,setUpdateProfile] = useState(false)
+  const [updateProfile,setUpdateProfile] = useState(false);
+  const [isLoading,setIsLoaging] = useState(false);
+  const [data,setData] = useState<DocumentData[]>( [] as DocumentData[]);
+
   const onChooseHandler =()=>{
     setUpdateProfile(true)
   }
@@ -22,7 +28,9 @@ function Profile() {
   useEffect(()=>{
   const Function =async()=>{
     const x = await FirebaseFetchData()
-    console.log('ggg',x)
+    console.log('ggg',x);
+    setData(x)
+    setIsLoaging(true);
 
   }
   Function();
@@ -45,7 +53,16 @@ function Profile() {
     const value = await FirebaseEditEmail({name:values.name});
     if(value) setUpdateProfile(false);
   }
+
+  const onDeleteHandler = (id:string)=>{
+    SwalDeleteFire(FirebaseDeleteItem(id));
+  }
+
+  const onEditHandler = async()=>{
+  }
   return (
+    <>
+    { isLoading ?
      <div className=' flex flex-col gap-4 min-h-screen   justify-center items-center h-fit w-[100%] px-[30px] overflow-hidden bg-green-100'>
       <div className=' uppercase text-black text-center w-[100%]  mt-24  overflow-hidden text-5xl font-bold'>
         My profile
@@ -83,21 +100,22 @@ function Profile() {
         My list
       </div>
       <div className='lg:mx-32'>
-      <div className='w-[100%] h-fit  grid gap-6  pb-20 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1'>
-      <ListHouseCard/>
-      <ListHouseCard/>
+      <div  className='w-[100%] h-fit  grid gap-6  pb-20 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1'>
+        { data.map(c=>{
 
-      <ListHouseCard/>
+         return (<ListHouseCard key={c.id} address = {c.data.address} baths ={c.data.baths} beds= {c.data.beds}
+          description= {c.data.description} imgUrl= {c.data.imgUrl} regularPrice= {c.data.regularPrice} 
+          timeStamp = {c.data.timeStamp}  onDeleteHandler={()=>onDeleteHandler(c.id)} onEditHandler={onEditHandler}/>)
 
-      <ListHouseCard/>
-      <ListHouseCard/>
-      <ListHouseCard/>
-      <ListHouseCard/>
-
+        })
+        }
       </div>
       </div>
 
     </div>
+    :<Spinner/>
+     }
+    </>
   )
 }
 

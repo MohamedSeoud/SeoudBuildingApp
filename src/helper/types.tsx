@@ -68,6 +68,28 @@ export interface SellOrRent{
 
 export interface FetchedData{
     data:SellOrRent
-
     id:string|null
+}
+export interface ListCardModel{
+    address:string,
+    baths:number
+    beds:number
+    description:string,
+    imgUrl:string,
+    regularPrice:number,
+    timeStamp:string,
+    onDeleteHandler:()=> void,
+    onEditHandler:()=>void
+}
+
+export interface SwalAlertType{
+    message1:string,
+    warning1:string,
+    type1:string,
+    warning3?:string,
+    type2?:string,
+    warning2?:string,
+    type3?:string,
+    message2?:string,
+    message3?:string,
 }

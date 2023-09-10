@@ -7,11 +7,10 @@ import InputNumber from '../UI/InputNumber'
 import TextAreaInput from '../UI/TextAreaInput';
 import ImageInput from '../UI/ImageInput'
 import ButtonSubmit from '../UI/ButtonSubmit'
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getAuth } from 'firebase/auth'
 import { tostifyVariables } from '../helper/enum/tostifyVariables'
 import toastNotification from '../helper/toastNotification'
-import { FirebaseAddData } from '../firebase/Firebase'
+import { FirebaseAddData, saveImage } from '../firebase/Firebase'
 import { useNavigate } from 'react-router'
 import { PROFILE_PATH } from '../helper/enum/navigationPath'
 
@@ -20,49 +19,10 @@ import { PROFILE_PATH } from '../helper/enum/navigationPath'
 
 function CreateListing() {
   const location =false;
-  const storage = getStorage();
-  const auth = getAuth();
+
   const navigate = useNavigate();
 
 
-
-    const saveImage = async( image:File )=>{
-      try{
-      const fileName = `${auth.currentUser?.uid}-${image.name}`;
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, image);
-      uploadTask.on('state_changed', 
-  (snapshot) => {
-    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log('Upload is ' + progress + '% done');
-    switch (snapshot.state) {
-      case 'paused':
-        console.log('Upload is paused');
-        break;
-      case 'running':
-        console.log('Upload is running');
-        break;
-    }
-  }, 
-  (error) => {
-    console.log("Handle unsuccessful uploads" ,error)
-  }, 
-  () => {
-
-    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      console.log('File available at', downloadURL);
-    });
-  }
-);
-      
-
-      }
-      catch(err){
-        console.log(err)
-        toastNotification({text:"Something went wrong with the Updating",choice:tostifyVariables.error})
-      }
-
-    }
 
     const intialValues:SellOrRentModel = {
         sellOrRent:"",
@@ -102,11 +62,11 @@ function CreateListing() {
         const auth =getAuth()
         console.log(values);
         const { image } = values
-        const imgUrl= image && String(await saveImage(image));
-        console.log(imgUrl);
-        toastNotification({text:`${imgUrl}`,choice:tostifyVariables.success});
+        const imgUrl = image && await saveImage(image);
+        toastNotification({text:`Image Successfully uploaded`,choice:tostifyVariables.success});
          delete values.image;
-        const value = auth.currentUser?.uid && await FirebaseAddData({...values,userRef:auth.currentUser?.uid});
+        const value = auth.currentUser?.uid && await FirebaseAddData({...values,userRef:auth.currentUser?.uid,imgUrl:imgUrl!,
+          timeStamp:(new Date()).toString()});
         value && navigate(PROFILE_PATH);
     }
   return (
