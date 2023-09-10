@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {DocumentData, addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query,
+import {DocumentData, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query,
    serverTimestamp, setDoc, updateDoc, where} from 'firebase/firestore'
 import {createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import { ForgotPasswordModel, SellOrRent,  SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
@@ -160,7 +160,7 @@ export async function FirebaseFetchData():Promise<DocumentData[]> {
 
 }
 
-export async function saveImage( image:File ){
+export async function FireBaseSaveImage( image:File ){
   try{ 
   const auth = getAuth();
   const storage = getStorage();
@@ -205,8 +205,6 @@ return downloadURL
 
 export  function FirebaseDeleteItem(listingId:string) {
  return async()=> { try{
-  console.log('cccccccc')
-
     await deleteDoc(doc(db,"listings",listingId));
     return true
   }
@@ -217,5 +215,36 @@ export  function FirebaseDeleteItem(listingId:string) {
 
   }
 }
+
+}
+
+
+export async function FirebaseGetItemById(listingId:string):Promise<DocumentData> {
+   try{
+     const item = await getDoc(doc(db,"listings",listingId));
+     return item
+   }
+   catch(err){
+     console.log('ssssss',err)
+     toastNotification({text:"Something went wrong with getting data",choice:tostifyVariables.error})
+     return {} as DocumentData
+
+   }
+
+ 
+ }
+
+
+ export async function FirebaseUpdateData (formData:SellOrRent,id:string){
+  try{    
+     await updateDoc(doc(db,"listings",id),{...formData})
+      toastNotification({text:"Successfully Updated!",choice:tostifyVariables.success});
+      return true
+  }
+  catch(err){
+    console.log('ssssss',err)
+    toastNotification({text:"Something went wrong with the Updating",choice:tostifyVariables.error})
+    return false
+  }
 
 }

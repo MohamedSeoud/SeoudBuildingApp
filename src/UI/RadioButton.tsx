@@ -13,7 +13,7 @@ function RadioButton({name,value1,value2,title,name2,name3}:{name:string,value1:
 
             <div>
         <label className=' w-[100%] flex flex-row justify-start items-center'  >
-            <Field  
+            <Field   
                 name={name} value={value1} className="hidden peer " type="radio" />
                 <span  className={` w-6 h-6 rounded-full bg-slate-200 peer-checked:bg-sky-500 text-transparent relative z-10  `} />
             <span 

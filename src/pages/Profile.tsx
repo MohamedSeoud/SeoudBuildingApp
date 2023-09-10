@@ -3,13 +3,13 @@ import { ProfileModel } from '../helper/types';
 import * as Yup from 'yup';
 import ButtonSubmit from '../UI/ButtonSubmit';
 import OptionPart from '../UI/OptionPart';
-import { CREATE_LISTING_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
+import { CREATE_LISTING_PATH, EDIT_LISTING_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
 import { getAuth } from 'firebase/auth';
 import { FirebaseDeleteItem, FirebaseEditEmail, FirebaseFetchData, FirebaseLogout } from '../firebase/Firebase';
 import InputField from '../UI/InputField';
 import image from '../assets/profile.jpg';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ListHouseCard from '../components/ListHouseCard';
 import Spinner from '../components/Spinner';
 import { DocumentData } from 'firebase/firestore';
@@ -20,6 +20,7 @@ function Profile() {
   const [updateProfile,setUpdateProfile] = useState(false);
   const [isLoading,setIsLoaging] = useState(false);
   const [data,setData] = useState<DocumentData[]>( [] as DocumentData[]);
+  const navigate = useNavigate();
 
   const onChooseHandler =()=>{
     setUpdateProfile(true)
@@ -58,7 +59,8 @@ function Profile() {
     SwalDeleteFire(FirebaseDeleteItem(id));
   }
 
-  const onEditHandler = async()=>{
+  const onEditHandler = (id:string)=>{
+    navigate(EDIT_LISTING_PATH+`/${id}`)
   }
   return (
     <>
@@ -105,7 +107,8 @@ function Profile() {
 
          return (<ListHouseCard key={c.id} address = {c.data.address} baths ={c.data.baths} beds= {c.data.beds}
           description= {c.data.description} imgUrl= {c.data.imgUrl} regularPrice= {c.data.regularPrice} 
-          timeStamp = {c.data.timeStamp}  onDeleteHandler={()=>onDeleteHandler(c.id)} onEditHandler={onEditHandler}/>)
+          timeStamp = {c.data.timeStamp}  onDeleteHandler={()=>onDeleteHandler(c.id)} 
+          onEditHandler={()=>onEditHandler(c.id)}/>)
 
         })
         }

@@ -2,9 +2,9 @@ import { ErrorMessage } from "formik";
 import { ChangeEvent, useState } from "react";
 import { PiCloudArrowUpBold } from "react-icons/pi";
 
-function ImageInput({setFieldValue,name}:{setFieldValue:(name:string, file:object )=>void,name:string}) {
+function ImageInput({setFieldValue,name,src}:{setFieldValue:(name:string, file:object )=>void,name:string,src?:string}) {
 
-  const [imagePreview,setImagePreview] = useState("");
+  const [imagePreview,setImagePreview] =  useState(`${src===undefined?"":src}`) ;
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const {target} = event;

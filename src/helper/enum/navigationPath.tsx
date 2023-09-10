@@ -5,3 +5,5 @@ export const PROFILE_PATH="/profile";
 export const OFFER_PATH="/offers";
 export const HOME_PATH="/home";
 export const CREATE_LISTING_PATH="/create-listing"
+export const EDIT_LISTING_PATH="/edit-listing"
+

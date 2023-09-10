@@ -10,34 +10,59 @@ import ButtonSubmit from '../UI/ButtonSubmit'
 import { getAuth } from 'firebase/auth'
 import { tostifyVariables } from '../helper/enum/tostifyVariables'
 import toastNotification from '../helper/toastNotification'
-import { FireBaseSaveImage, FirebaseAddData } from '../firebase/Firebase'
-import { useNavigate } from 'react-router'
-import { PROFILE_PATH } from '../helper/enum/navigationPath'
+import { FireBaseSaveImage, FirebaseGetItemById, FirebaseUpdateData } from '../firebase/Firebase'
+import { useNavigate, useParams } from 'react-router'
+import { HOME_PATH, PROFILE_PATH } from '../helper/enum/navigationPath'
+import { useEffect, useState } from 'react'
+import { DocumentData } from 'firebase/firestore'
+import Spinner from '../components/Spinner'
 
 
 
 
-function CreateListing() {
+function EditListing() {
   const location =false;
   const navigate = useNavigate();
+  const {id} = useParams();
+  const [isLoading,setIsLoaging] = useState(false);
+  const [data,setData] = useState<DocumentData>( {} as DocumentData);
+  const auth = getAuth();
+
+
+  
+  useEffect(() => {
+    const fetchData = async(id:string)=>{
+        const item =await FirebaseGetItemById(id);
+        setData (item.data());
+        setIsLoaging(true);
+        if(item.data().userRef !== auth.currentUser?.uid) {
+            navigate(HOME_PATH);
+            toastNotification({text:"You can't update this data",choice:tostifyVariables.error})
+        } 
+        console.log(item.data())
+    }
+    id && fetchData(id)
+  }, [])
+
+
 
     const intialValues:SellOrRentModel = {
-        sellOrRent:"",
-        name:"",
-        beds:1,
-        baths:1,
-        parkingSpot:null,
-        furnished:null,
-        address:"",
-        description:"",
-        offer:null,
-        regularPrice:1,
+        sellOrRent:data.sellOrRent,
+        name:data.name,
+        beds:data.beds,
+        baths:data.baths,
+        parkingSpot:data.parkingSpot,
+        furnished:data.furnished,
+        address:data.address,
+        description:data.description,
+        offer:data.offer,
+        regularPrice:data.regularPrice,
         image: {} as File,
-        discount: 1,
-        latitude:0,
-        longitude:0,
-        imgUrl:"",
-        timeStamp:""
+        discount: data.discount,
+        latitude:data.latitude,
+        longitude:data.longitude,
+        imgUrl:data.imgUrl,
+        timeStamp:data.timeStamp
     }
     const ValidationSchema = Yup.object({
         name:Yup.string().required('Required'),
@@ -62,11 +87,12 @@ function CreateListing() {
         const imgUrl = image && await FireBaseSaveImage(image);
         toastNotification({text:`Image Successfully uploaded`,choice:tostifyVariables.success});
          delete values.image;
-        const value = auth.currentUser?.uid && await FirebaseAddData({...values,userRef:auth.currentUser?.uid,imgUrl:imgUrl!,
-          timeStamp:(new Date()).toString()});
+        const value = auth.currentUser?.uid && id && await FirebaseUpdateData({...values,userRef:auth.currentUser?.uid,imgUrl:imgUrl!,
+          timeStamp:(new Date()).toString()},id);
         value && navigate(PROFILE_PATH);
     }
   return (
+    <> { isLoading ?
     <div className=' flex flex-col gap-5 min-h-screen justify-center items-center   h-fit py-28 w-[100%]  md:px-[30px]
      overflow-hidden bg-green-100'>
     <div className=' uppercase text-black text-center w-[100%]  overflow-hidden text-5xl font-bold'>
@@ -93,8 +119,8 @@ function CreateListing() {
           <RadioButton name='offer' title='offer' value1="true" value2="false" name2='yes' name3='no'/>
           <InputNumber  name1='regularPrice' title1='Regular Price' option={true} />
           <InputNumber  name1='discount' title1='Discount price' option={true}  />
-          <ImageInput name='image' setFieldValue={setFieldValue}/>
-          <ButtonSubmit name='Create Listing'/>
+          <ImageInput name='image' setFieldValue={setFieldValue} src={data.imgUrl}/>
+          <ButtonSubmit name='Update Listing'/>
 
           </div>
             
@@ -103,7 +129,11 @@ function CreateListing() {
     </Formik>
       
     </div>
+    :
+    <Spinner/>
+     }
+     </>
   )
 }
 
-export default CreateListing
+export default EditListing
