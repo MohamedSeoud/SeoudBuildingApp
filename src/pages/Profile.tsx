@@ -73,7 +73,7 @@ function Profile() {
         <img className=' rounded-[200px]' src={image}/>
       </div>
       { !updateProfile ?
-      <div className=' flex flex-col gap-5 lg:w-fit md:w-[80%] w-[100%] justify-center text-center items-center'>
+      <div className=' flex flex-col gap-5 lg:w-[500px] md:w-[80%] w-[100%] justify-center text-center items-center'>
         <div>
       <div  className=' px-3 text-[35px] w-[100%] '> Name :  {initialValues.name}</div>
       <div  className=' px-3 text-[35px] w-[100%] '> Email  : {initialValues.email} </div>
