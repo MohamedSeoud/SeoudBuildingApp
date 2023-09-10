@@ -218,14 +218,13 @@ export  function FirebaseDeleteItem(listingId:string) {
 
 }
 
-
 export async function FirebaseGetItemById(listingId:string):Promise<DocumentData> {
    try{
      const item = await getDoc(doc(db,"listings",listingId));
      return item
    }
    catch(err){
-     console.log('ssssss',err)
+     console.log(err)
      toastNotification({text:"Something went wrong with getting data",choice:tostifyVariables.error})
      return {} as DocumentData
 
