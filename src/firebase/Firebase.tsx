@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {addDoc, collection, doc, getDoc, getDocs, getFirestore, query, serverTimestamp, setDoc, updateDoc, where} from 'firebase/firestore'
+import {DocumentData, addDoc, collection, doc, getDocs, getFirestore, query, serverTimestamp, setDoc, updateDoc, where} from 'firebase/firestore'
 import {createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
-import { FetchedData, ForgotPasswordModel, SellOrRent,  SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
+import { ForgotPasswordModel, SellOrRent,  SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
 import toastNotification from "../helper/toastNotification";
 import { tostifyVariables } from "../helper/enum/tostifyVariables";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -140,7 +140,7 @@ export async function FirebaseFetchData (){
     where("userRef","==",currentUser?.uid )
     )
     const querySnap = await getDocs(q);
-    const listings:FetchedData[] =[];
+    const listings:DocumentData[] =[];
     querySnap.forEach((doc)=>{
       return listings.push({
         id:doc.id,

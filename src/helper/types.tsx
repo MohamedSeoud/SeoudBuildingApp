@@ -67,7 +67,7 @@ export interface SellOrRent{
 }
 
 export interface FetchedData{
-    data:any
+    data:SellOrRent
 
     id:string|null
 }
