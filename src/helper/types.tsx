@@ -39,7 +39,28 @@ export interface SellOrRentModel{
     description:string,
     offer:boolean|null,
     regularPrice:number,
-    image:File|null
-    discount:number
+    image?:File,
+    discount:number,
+    latitude:number,
+    longitude:number,
+    imgUrl:string,
+    timeStamp:string
+}
 
+export interface SellOrRent{
+    sellOrRent:string,
+    name:string,
+    beds:number,
+    baths:number,
+    parkingSpot:boolean|null,
+    furnished:boolean|null,
+    address:string,
+    description:string,
+    offer:boolean|null,
+    regularPrice:number,
+    discount:number,
+    latitude:number,
+    longitude:number,
+    imgUrl:string,
+    timeStamp:string
 }

@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {doc, getFirestore, serverTimestamp, setDoc, updateDoc} from 'firebase/firestore'
+import {addDoc, collection, doc, getFirestore, serverTimestamp, setDoc, updateDoc} from 'firebase/firestore'
 import {createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
-import { ForgotPasswordModel, SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
+import { ForgotPasswordModel, SellOrRent,  SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
 import toastNotification from "../helper/toastNotification";
 import { tostifyVariables } from "../helper/enum/tostifyVariables";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -110,5 +110,22 @@ export async function FirebaseEditEmail (formData:{name:string}){
     return false
   }
   return false;
+
+}
+
+export async function FirebaseAddData (formData:SellOrRent){
+  try{
+
+    
+     await addDoc(collection(db,"listings"),formData)
+
+      toastNotification({text:"Successfully Added!",choice:tostifyVariables.success});
+      return true
+  }
+  catch(err){
+    console.log('ssssss',err)
+    toastNotification({text:"Something went wrong with the Adding",choice:tostifyVariables.error})
+    return false
+  }
 
 }
