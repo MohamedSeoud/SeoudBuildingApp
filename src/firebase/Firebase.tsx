@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {addDoc, collection, doc, getFirestore, serverTimestamp, setDoc, updateDoc} from 'firebase/firestore'
+import {addDoc, collection, doc, getDoc, getDocs, getFirestore, query, serverTimestamp, setDoc, updateDoc, where} from 'firebase/firestore'
 import {createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
-import { ForgotPasswordModel, SellOrRent,  SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
+import { FetchedData, ForgotPasswordModel, SellOrRent,  SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
 import toastNotification from "../helper/toastNotification";
 import { tostifyVariables } from "../helper/enum/tostifyVariables";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -129,3 +129,32 @@ export async function FirebaseAddData (formData:SellOrRent){
   }
 
 }
+
+export async function FirebaseFetchData (){
+  try{
+
+    const auth = getAuth();
+    const{currentUser}=auth;
+    const listingRef = collection(db,"listings");
+    const q =  query(listingRef,
+    where("userRef","==",currentUser?.uid )
+    )
+    const querySnap = await getDocs(q);
+    const listings:FetchedData[] =[];
+    querySnap.forEach((doc)=>{
+      return listings.push({
+        id:doc.id,
+        data:doc.data() 
+      })
+    })
+
+      return listings
+  }
+  catch(err){
+    console.log('ssssss',err)
+    toastNotification({text:"Something went wrong with getting data",choice:tostifyVariables.error})
+    return false
+  }
+
+}
+

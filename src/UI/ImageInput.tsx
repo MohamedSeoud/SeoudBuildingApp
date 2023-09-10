@@ -28,13 +28,13 @@ function ImageInput({setFieldValue,name}:{setFieldValue:(name:string, file:objec
     }}
     
     />
-       <div className='relative text-blue-600 font-bold text-2xl  top-7 overflow-hidden    flex flex-col items-center justify-center'>
+       <div className='relative text-blue-600 font-bold text-2xl  overflow-hidden    flex flex-col items-center justify-center'>
       Upload Image
       <span>
        <PiCloudArrowUpBold  size="5rem"/>
       </span>
-      <span className='  max-h-[100px] max-w-[100px]' >
-       {imagePreview !=="" && <img width="100%" height="100p%" src={imagePreview}/>}
+      <span className=' w-[175px] h-[175px] flex justify-center items-center  overflow-hidden' >
+       {imagePreview !=="" && <img className="w-[175px] h-[175px]" width="175px" height="175px" src={imagePreview}/>}
       </span>
       
       </div>

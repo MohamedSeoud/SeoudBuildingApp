@@ -62,5 +62,12 @@ export interface SellOrRent{
     latitude:number,
     longitude:number,
     imgUrl:string,
-    timeStamp:string
+    timeStamp:string,
+    userRef:string
+}
+
+export interface FetchedData{
+    data:any
+
+    id:string|null
 }

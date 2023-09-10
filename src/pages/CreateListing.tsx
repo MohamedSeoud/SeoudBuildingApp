@@ -99,13 +99,14 @@ function CreateListing() {
         
     })
     const onSubmit =async(values:SellOrRentModel)=>{
+        const auth =getAuth()
         console.log(values);
         const { image } = values
         const imgUrl= image && String(await saveImage(image));
         console.log(imgUrl);
         toastNotification({text:`${imgUrl}`,choice:tostifyVariables.success});
          delete values.image;
-        const value =await FirebaseAddData(values);
+        const value = auth.currentUser?.uid && await FirebaseAddData({...values,userRef:auth.currentUser?.uid});
         value && navigate(PROFILE_PATH);
     }
   return (

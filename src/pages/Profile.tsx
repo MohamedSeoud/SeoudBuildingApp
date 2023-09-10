@@ -5,11 +5,12 @@ import ButtonSubmit from '../UI/ButtonSubmit';
 import OptionPart from '../UI/OptionPart';
 import { CREATE_LISTING_PATH, SING_UP_PATH } from '../helper/enum/navigationPath';
 import { getAuth } from 'firebase/auth';
-import { FirebaseEditEmail, FirebaseLogout } from '../firebase/Firebase';
+import { FirebaseEditEmail, FirebaseFetchData, FirebaseLogout } from '../firebase/Firebase';
 import InputField from '../UI/InputField';
 import image from '../assets/profile.jpg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import ListHouseCard from '../components/ListHouseCard';
 
 function Profile() {
   const auth = getAuth();
@@ -17,6 +18,15 @@ function Profile() {
   const onChooseHandler =()=>{
     setUpdateProfile(true)
   }
+
+  useEffect(()=>{
+  const Function =async()=>{
+    const x = await FirebaseFetchData()
+    console.log('ggg',x)
+
+  }
+  Function();
+  },[auth.currentUser?.uid])
 
   const validationSchema = Yup.object({
     name:Yup.string().required('Required'),
@@ -67,6 +77,25 @@ function Profile() {
         </Form>
       </Formik>
       }
+      <div className=' w-full h-[1.5px] my-2  mx-5 bg-slate-300'> </div>
+
+      <div className=' uppercase text-black text-center w-[100%]  mb-10  overflow-hidden text-5xl font-bold'>
+        My list
+      </div>
+      <div className='lg:mx-32'>
+      <div className='w-[100%] h-fit  grid gap-6  pb-20 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1'>
+      <ListHouseCard/>
+      <ListHouseCard/>
+
+      <ListHouseCard/>
+
+      <ListHouseCard/>
+      <ListHouseCard/>
+      <ListHouseCard/>
+      <ListHouseCard/>
+
+      </div>
+      </div>
 
     </div>
   )
