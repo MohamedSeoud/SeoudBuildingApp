@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import SwiperComponent from '../components/SwiperComponent'
 import MapComponent from '../components/MapComponent'
 import { MdLocationOn } from 'react-icons/md'

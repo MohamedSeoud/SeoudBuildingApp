@@ -1,4 +1,3 @@
-import React from 'react'
 import { HiDocumentSearch } from 'react-icons/hi'
 import { AiOutlineArrowRight } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
