@@ -1,5 +1,4 @@
 import { ErrorMessage, Field } from 'formik'
-import React from 'react'
 
 
 interface Props{
@@ -33,4 +32,4 @@ function InputField({name,placeholder,className,disabled,label}:Props) {
   )
 }
 
-export default React.memo(InputField)
+export default InputField

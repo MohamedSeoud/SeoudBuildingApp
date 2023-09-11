@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { HOME_PATH } from '../helper/enum/navigationPath';
 
@@ -51,4 +50,4 @@ function OptionPart({name1,path1,option1,name2,path2,func,onClick}:Props) {
   )
 }
 
-export default React.memo(OptionPart)
+export default OptionPart

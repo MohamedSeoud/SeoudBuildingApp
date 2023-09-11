@@ -23,13 +23,14 @@ function ListingsPage() {
   const[isRegistered,setIsRegistered]=useState(false)
   const [data,setData] = useState<DocumentData>( {} as DocumentData);
   const [email,setEmail] = useState<DocumentData>( {} as DocumentData);
+  const auth = getAuth();
+
 
   const navigate = useNavigate()
 
 
   const {id} = useParams()
   useEffect(()=>{
-    const auth = getAuth();
 
     const fetchData = async()=>{
     const item = id &&  await FirebaseGetItemById(id)
@@ -46,7 +47,7 @@ function ListingsPage() {
     setIsLoading(true)
     }
     fetchData()
-  },[])
+  },)
 
   const initialState={
     message:""

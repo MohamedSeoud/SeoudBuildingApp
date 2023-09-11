@@ -1,5 +1,5 @@
 import { ErrorMessage, Field } from 'formik'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { BsFillEyeFill, BsFillEyeSlashFill } from 'react-icons/bs'
 
 function PasswordInput() {
@@ -27,4 +27,4 @@ function PasswordInput() {
   )
 }
 
-export default React.memo(PasswordInput);
+export default PasswordInput

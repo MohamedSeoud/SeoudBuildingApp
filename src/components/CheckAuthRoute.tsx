@@ -1,4 +1,3 @@
-import React from 'react'
 import { Navigate, Outlet } from 'react-router'
 import { SING_IN_PATH } from '../helper/enum/navigationPath'
 import {useAuthStatus} from '../hooks/useAuthStatus';
@@ -10,4 +9,4 @@ function CheckAuthRoute() {
   return ( <> { logging?<Outlet/>:<Navigate to={SING_IN_PATH}/> } </> )
 }
 
-export default React.memo(CheckAuthRoute)
+export default CheckAuthRoute

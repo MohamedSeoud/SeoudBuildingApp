@@ -42,7 +42,7 @@ function EditListing() {
         console.log(item.data())
     }
     id && fetchData(id)
-  }, [])
+  })
 
 
 

@@ -1,6 +1,5 @@
 
 
-import React from 'react'
 import { FcHome } from 'react-icons/fc';
 
 function ButtonSubmit({name,className,onClick,icon}:{name:string,className?:string,onClick?:()=>void,icon?:boolean}) {
@@ -16,4 +15,4 @@ function ButtonSubmit({name,className,onClick,icon}:{name:string,className?:stri
   )
 }
 
-export default React.memo(ButtonSubmit);
+export default ButtonSubmit;

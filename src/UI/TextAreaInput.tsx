@@ -1,5 +1,4 @@
 import { ErrorMessage, Field } from 'formik'
-import React from 'react'
 
 
 interface Props{
@@ -27,4 +26,4 @@ function TextAreaInput({name,placeholder,className,label}:Props) {
   )
 }
 
-export default React.memo(TextAreaInput)
+export default TextAreaInput

@@ -22,7 +22,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 initializeApp(firebaseConfig);
-export const db = getFirestore();
+ export const db = getFirestore();
 
 export  async function FirebaseSignUp(fromData:SignUpModel) {
 

@@ -1,4 +1,3 @@
-import React from 'react'
 
 function ORPart() {
   return (
@@ -11,4 +10,4 @@ function ORPart() {
   )
 }
 
-export default React.memo(ORPart)
+export default ORPart

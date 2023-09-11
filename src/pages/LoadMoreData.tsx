@@ -32,7 +32,7 @@ function LoadMoreData() {
         setIsLoading(true)
        }
        fetchData()
-  }, [])
+  }, [name])
   return (
     <>
     { isLoading ?
