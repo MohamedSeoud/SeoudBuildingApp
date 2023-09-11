@@ -72,7 +72,7 @@ function ListingsPage() {
   }
   return (
     <>
-     { isLoading && data!=={} as DocumentData ?
+     { isLoading ?
      <Formik initialValues={initialState}  
      onSubmit={onSubmit} validationSchema={validationSchema}
      validateOnChange={false} validateOnBlur={false}
