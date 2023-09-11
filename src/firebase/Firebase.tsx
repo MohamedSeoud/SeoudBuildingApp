@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import {DocumentData, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query,
+import {DocumentData, addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, limit, orderBy, query,
    serverTimestamp, setDoc, updateDoc, where} from 'firebase/firestore'
 import {createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, updateProfile} from 'firebase/auth';
 import { ForgotPasswordModel, SellOrRent,  SignInFormModel, SignUpDbModel, SignUpModel } from '../helper/types';
@@ -261,3 +261,26 @@ export async function FirebaseGetEmail(userRef:string):Promise<DocumentData> {
 
 
 }
+
+export async function FirebaseFetchAllData():Promise<DocumentData[]> {
+  try{
+    const listingRef = collection(db,"listings");
+    const q =  query(listingRef,orderBy("timeStamp","desc"),limit(6));
+    const querySnap = await getDocs(q);
+    const listings:DocumentData[] =[];
+    querySnap.forEach((doc)=>{
+      return listings.push({
+        id:doc.id,
+        data:doc.data() 
+      })
+    })
+
+      return listings
+  }
+  catch(err){
+    toastNotification({text:"Something went wrong with getting data",choice:tostifyVariables.error})
+    return [] as DocumentData[]
+  }
+
+}
+

@@ -7,17 +7,20 @@ import { useNavigate, useParams } from 'react-router'
 import { FirebaseGetEmail, FirebaseGetItemById } from '../firebase/Firebase'
 import Spinner from '../components/Spinner'
 import { DocumentData } from 'firebase/firestore'
-import { HOME_PATH } from '../helper/enum/navigationPath'
+import { HOME_PATH, SING_IN_PATH } from '../helper/enum/navigationPath'
 import toastNotification from '../helper/toastNotification'
 import { tostifyVariables } from '../helper/enum/tostifyVariables'
 import TextAreaInput from '../UI/TextAreaInput';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik'
 import ButtonSubmit from '../UI/ButtonSubmit'
-import { openInNewTab } from '../helper/openInNewTab'
+import { getAuth } from 'firebase/auth'
+import SwalNotRegistered from '../components/SwalNotRegistered'
+import MessageSentSuceesfully from '../components/MessageSentSuceesfully'
 
 function ListingsPage() {
   const[isLoading,setIsLoading]=useState(false)
+  const[isRegistered,setIsRegistered]=useState(false)
   const [data,setData] = useState<DocumentData>( {} as DocumentData);
   const [email,setEmail] = useState<DocumentData>( {} as DocumentData);
 
@@ -26,6 +29,8 @@ function ListingsPage() {
 
   const {id} = useParams()
   useEffect(()=>{
+    const auth = getAuth();
+
     const fetchData = async()=>{
     const item = id &&  await FirebaseGetItemById(id)
      if ( item && !item.exists()){
@@ -34,7 +39,10 @@ function ListingsPage() {
     }
     item && setData(item.data());
     const email = item && await FirebaseGetEmail(item.data().userRef);
-    email &&  setEmail(email.data().email)
+    email &&  setEmail(email.data().email);
+    if ( auth.currentUser?.uid !== undefined){
+      setIsRegistered(true)
+    }
     setIsLoading(true)
     }
     fetchData()
@@ -46,14 +54,27 @@ function ListingsPage() {
   const validationSchema= Yup.object({
     message:Yup.string().required('Required!')
   }) 
-  const onSubmit = async(value:{message:string})=>{
-    openInNewTab(`mailto:${email}?Subject=${data.name}&body=${value.message}`)
-  }
 
+  const onSubmit = async(value:{message:string},{resetForm}:{resetForm:()=>void})=>{
+    if(isRegistered)
+    {
+      console.log(email)
+      MessageSentSuceesfully();
+      resetForm()
+    }
+    else{
+      sessionStorage.setItem('Email',value.message)
+      sessionStorage.setItem('Subject',data.name)
+      sessionStorage.setItem('body',value.message)
+      SwalNotRegistered();
+      navigate(SING_IN_PATH)
+    }
+  }
   return (
     <>
      { isLoading && data!=={} as DocumentData ?
-     <Formik initialValues={initialState} onSubmit={onSubmit} validationSchema={validationSchema}
+     <Formik initialValues={initialState}  
+     onSubmit={onSubmit} validationSchema={validationSchema}
      validateOnChange={false} validateOnBlur={false}
      >
          <Form>

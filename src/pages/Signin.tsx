@@ -45,13 +45,12 @@ function Signin() {
 
         <div className='w-[100%] col-span-1 mx-4  overflow-hidden  '>
           <img src={image} className='rounded-[20px] h-[500px] w-[90%] '/>
-
         </div>
        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}
        validateOnChange={false}
        validateOnBlur={false}
        >
-          <Form className='flex flex-col col-span-1 py-5 w-[100%]  overflow-hidden gap-y-6'>
+        <Form className='flex flex-col col-span-1 py-5 w-[100%]  overflow-hidden gap-y-6'>
             <InputField name='email' placeholder='Email address'/>
             <PasswordInput/>
             <OptionPart name1={`Don't have an account?`} name2='Forgot Password?' path1={SING_UP_PATH} path2={FORGET_PASSWORD_PATH} option1='Register'/>
