@@ -2,11 +2,10 @@ import { useRoutes } from "react-router-dom";
 import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
 import ForgetPassword from "../pages/ForgetPassword";
-import { FORGET_PASSWORD_PATH, HOME_PATH, LISTING_PATH, OFFER_PATH, SING_IN_PATH, SING_UP_PATH } from "../helper/enum/navigationPath";
+import { FORGET_PASSWORD_PATH, HOME_PATH, OFFER_PATH, SING_IN_PATH, SING_UP_PATH } from "../helper/enum/navigationPath";
 import MainLayout from "../components/layout/MainLayout";
 import Home from "../pages/Home";
 import Offers from "../pages/Offers";
-import ListingsPage from "../pages/ListingsPage";
 
 
 
@@ -34,10 +33,6 @@ export default function UnAuthRoutes(){
         {
             path:OFFER_PATH,
             element:<Offers/>
-        },
-        {
-            path:LISTING_PATH+"/:name/:id",
-            element:<ListingsPage/>
         }
 
         

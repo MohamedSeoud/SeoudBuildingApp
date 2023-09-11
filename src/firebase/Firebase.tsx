@@ -231,8 +231,7 @@ export async function FirebaseGetItemById(listingId:string):Promise<DocumentData
    }
 
  
- }
-
+}
 
  export async function FirebaseUpdateData (formData:SellOrRent,id:string){
   try{    
@@ -245,5 +244,20 @@ export async function FirebaseGetItemById(listingId:string):Promise<DocumentData
     toastNotification({text:"Something went wrong with the Updating",choice:tostifyVariables.error})
     return false
   }
+
+}
+
+export async function FirebaseGetEmail(userRef:string):Promise<DocumentData> {
+  try{
+    const item = await getDoc(doc(db,"users",userRef));
+    return item
+  }
+  catch(err){
+    console.log(err)
+    toastNotification({text:"Something went wrong with getting data",choice:tostifyVariables.error})
+    return {} as DocumentData
+
+  }
+
 
 }
