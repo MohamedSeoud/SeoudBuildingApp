@@ -125,7 +125,7 @@ export async function FirebaseAddData (formData:SellOrRent){
       return true
   }
   catch(err){
-    console.log('ssssss',err)
+    console.log(err)
     toastNotification({text:"Something went wrong with the Adding",choice:tostifyVariables.error})
     return false
   }

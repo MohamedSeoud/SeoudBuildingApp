@@ -1,14 +1,16 @@
-import  { useEffect, useState } from 'react';
+import  {  useEffect, useState } from 'react';
 import { BsList } from 'react-icons/bs';
 
 import image from '../../assets/icon-close.png';
 import { NavLink, useLocation } from 'react-router-dom';
 import { HOME_PATH, OFFER_PATH, PROFILE_PATH, SING_IN_PATH } from '../../helper/enum/navigationPath';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import Spinner from '../Spinner';
 
 function Header() {
   const location =useLocation();
   const[navName,setNavName]=useState("Signin")
+  const[isLoading,setIsLoading] = useState(false);
   const checkLocation =(path:string)=>{
   
     if(location.pathname===path)return true;
@@ -16,16 +18,22 @@ function Header() {
   }
   const auth =getAuth()
   useEffect(()=>{
+    setIsLoading(false)
     onAuthStateChanged(auth,(user)=>{
-      if(user) {setNavName(user.displayName!);}
+
+      if(user) {setNavName(user.displayName!);
+      }
       else{setNavName("Signin")}
+
     })
+    setIsLoading(true);
 
   },[auth])
 
 const[showNav, setShowNav] = useState(false);
   return (
     <>
+    { isLoading ?
     <div className=' flex flex-col fixed  z-50  w-screen overflow-hidden '>
     <div className='  py-2 bg-blue-500  px-9  flex flex-row items-center py-auto justify-between w-[100%]'>
       <NavLink to={HOME_PATH} className=''> <img src={image} className="max-h-[35px] my-3 w-auto" alt="" /> </NavLink>
@@ -71,6 +79,9 @@ const[showNav, setShowNav] = useState(false);
 
      }
     </div>
+    :
+    <Spinner/>
+     }
     </>
   )
 }

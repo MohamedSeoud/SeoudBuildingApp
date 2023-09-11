@@ -44,12 +44,13 @@ export default function UnAuthRoutes(){
             path:LISTING_PATH+"/:id",
             element:<ListingsPage/>
         },
+        {
+            path:'/*',
+            element: <NotFoundPage/>,
+        },
     ]
-    },
-    {
-        path:'/*',
-        element: <NotFoundPage/>,
-    },
+    }
+    
     ]);
     return index
 }
