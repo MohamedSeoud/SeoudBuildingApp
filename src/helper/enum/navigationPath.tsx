@@ -7,5 +7,7 @@ export const HOME_PATH="/home";
 export const CREATE_LISTING_PATH="/create-listing"
 export const EDIT_LISTING_PATH="/edit-listing"
 export const LISTING_PATH="/category"
+export const LOAD_MORE_DATA_PATH="/showMore"
+
 
 

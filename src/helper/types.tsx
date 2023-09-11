@@ -71,6 +71,7 @@ export interface FetchedData{
     id:string|null
 }
 export interface ListCardModel{
+    id:string,
     address:string,
     baths:number
     beds:number
@@ -78,8 +79,8 @@ export interface ListCardModel{
     imgUrl:string,
     regularPrice:number,
     timeStamp:string,
-    onDeleteHandler:()=> void,
-    onEditHandler:()=>void
+    onDeleteHandler?:()=> void,
+    onEditHandler?:()=>void
 }
 
 export interface SwalAlertType{

@@ -4,15 +4,19 @@ import { DocumentData } from "firebase/firestore";
 import { FirebaseFetchAllData } from "../firebase/Firebase";
 import ListHouseCard from "../components/ListHouseCard";
 import Spinner from "../components/Spinner";
+import { useNavigate, useParams } from "react-router";
 
-function Offers() {
+function LoadMoreData() {
   const [isLoading,setIsLoading] = useState(false);
   const [counter,setCounter] = useState(2);
   const [isFilled,setIsFilled] = useState(false);
   const [curData,setCurData] = useState<DocumentData[]>( [] as DocumentData[]);
+  const{name}=useParams();
+  const navigate =useNavigate();
+  if(name !=='rent' && name !== 'sale' ) navigate("/*"); 
 
   const onLoadMore = async()=>{
-    const fetchedOfferData = await FirebaseFetchAllData(15*counter,"offer");
+    const fetchedOfferData = await FirebaseFetchAllData(15*counter,name);
     if(fetchedOfferData.length === curData.length) {
       setIsFilled(true);
       return;
@@ -23,7 +27,7 @@ function Offers() {
 
   useEffect(() => {
        const fetchData=async()=>{
-        const fetchedOfferData = await FirebaseFetchAllData(15,"offer");
+        const fetchedOfferData = await FirebaseFetchAllData(15,name);
         setCurData(fetchedOfferData);
         setIsLoading(true)
        }
@@ -38,7 +42,7 @@ function Offers() {
 
     <div className=" flex flex-col p-16">
       <div className=" text-center text-black pb-4 text-3xl font-bold "> 
-      Recent offers
+      Recent {name}s
       </div>
 
      <div className=" grid xl:grid-cols-5 lg:grid-cols-4   md:grid-cols-3  sm:grid-cols-2 gap-x-4  gap-y-4 ">
@@ -85,4 +89,4 @@ function Offers() {
   )
 }
 
-export default Offers
+export default LoadMoreData

@@ -262,10 +262,16 @@ export async function FirebaseGetEmail(userRef:string):Promise<DocumentData> {
 
 }
 
-export async function FirebaseFetchAllData():Promise<DocumentData[]> {
+export async function FirebaseFetchAllData(dataNo:number,condition?:string):Promise<DocumentData[]> {
   try{
     const listingRef = collection(db,"listings");
-    const q =  query(listingRef,orderBy("timeStamp","desc"),limit(6));
+
+    const q = (condition===undefined)? query(listingRef,orderBy("timeStamp","desc"),limit(dataNo))
+    : (condition==="offer")? query(listingRef,where("offer","==","true"),orderBy("timeStamp","desc"),limit(dataNo)) :
+      (condition==="sell")? query(listingRef,where("sellOrRent","==","sell"),orderBy("timeStamp","desc"),limit(dataNo)):
+      (condition==="rent")? query(listingRef,where("sellOrRent","==","rent"),orderBy("timeStamp","desc"),limit(dataNo)):
+      query(listingRef,orderBy("timeStamp","desc"),limit(dataNo));
+
     const querySnap = await getDocs(q);
     const listings:DocumentData[] =[];
     querySnap.forEach((doc)=>{
@@ -278,6 +284,7 @@ export async function FirebaseFetchAllData():Promise<DocumentData[]> {
       return listings
   }
   catch(err){
+    console.log(err)
     toastNotification({text:"Something went wrong with getting data",choice:tostifyVariables.error})
     return [] as DocumentData[]
   }

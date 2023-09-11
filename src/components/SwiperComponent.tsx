@@ -18,7 +18,7 @@ function SwiperComponent() {
 
     useEffect(()=>{
         const fetchData =async()=>{
-           const data= await FirebaseFetchAllData();
+           const data= await FirebaseFetchAllData(6);
            console.log(data);
            setData(data)
            setIsLoaging(true)
@@ -48,8 +48,9 @@ function SwiperComponent() {
                          text-center bg-red-500 w-fit rounded-xl rounded-tr-[25px] font-medium'>{item.data.regularPrice}$ / Month</div>
 
 
-                    <div className=' flex  flex-col  gap-4  justify-center items-end p-12  text-gray-500'>
-                        <span onClick={onCopyHandler} className=' h-16 w-16 rounded-full cursor-pointer bg-white flex justify-center items-center '>
+                    <div className=' flex  flex-col  gap-4  relative bottom-[250px] justify-center items-end p-12  text-gray-500'>
+                        <span onClick={onCopyHandler} className=' h-16 w-16 rounded-full cursor-pointer bg-white flex justify-center
+                         items-center '>
                          <FaShare size="2.5rem"/>
                         </span>
                         {   copied &&

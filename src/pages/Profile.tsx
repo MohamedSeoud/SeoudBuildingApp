@@ -50,7 +50,6 @@ function Profile() {
   }
 
   const onSubmit =async(values:ProfileModel)=>{
-    console.log('here')
     const value = await FirebaseEditEmail({name:values.name});
     if(value) setUpdateProfile(false);
   }
@@ -105,11 +104,10 @@ function Profile() {
       <div  className='w-[100%] h-fit  grid gap-6  pb-20 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1'>
         { data.map(c=>{
 
-         return (<ListHouseCard key={c.id} address = {c.data.address} baths ={c.data.baths} beds= {c.data.beds}
+         return (<ListHouseCard key={c.id}  id={c.id}  address = {c.data.address} baths ={c.data.baths} beds= {c.data.beds}
           description= {c.data.description} imgUrl= {c.data.imgUrl} regularPrice= {c.data.regularPrice} 
           timeStamp = {c.data.timeStamp}  onDeleteHandler={()=>onDeleteHandler(c.id)} 
           onEditHandler={()=>onEditHandler(c.id)}/>)
-
         })
         }
       </div>

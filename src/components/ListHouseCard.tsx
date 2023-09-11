@@ -5,16 +5,20 @@ import { RiDeleteBin5Fill } from 'react-icons/ri';
 import { ListCardModel } from '../helper/types';
 import 'moment-timezone';
 import Moment from 'react-moment';
+import { useNavigate } from 'react-router';
+import { LISTING_PATH } from '../helper/enum/navigationPath';
 
 
 
 
 
-function ListHouseCard({address,baths,beds,description,imgUrl,regularPrice,timeStamp,
+function ListHouseCard({address,baths,beds,description,imgUrl,regularPrice,timeStamp,id,
      onDeleteHandler, onEditHandler}:ListCardModel) {
+        const navigate = useNavigate()
   return (
-    <div className='w-[100%] h-[100%] max-h-[320px] hover:shadow-2xl rounded-xl transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110  duration-200
-     hover:ease-in cursor-pointer   bg-white'>
+    <div className='w-[100%] h-[100%] max-h-[320px] hover:shadow-2xl rounded-xl transition 
+    ease-in-out delay-150  hover:-translate-y-1 hover:scale-110  duration-200
+     hover:ease-in cursor-pointer   bg-white' onClick={()=>navigate(LISTING_PATH+`/${id}`)}>
         <div className=' w-[100%] h-[100%] flex flex-col ease-out  duration-300'>
         <img src={imgUrl} className='w-[100%] h-[180px] rounded-t-xl overflow-hidden' alt=''/>
         <div className=' relative text-white rounded-lg flex justify-center text-center items-center
@@ -47,6 +51,7 @@ function ListHouseCard({address,baths,beds,description,imgUrl,regularPrice,timeS
              <span>{baths} Baths</span>
 
             </div>
+            { onDeleteHandler && onEditHandler &&
                 <div className=' flex flex-row  gap-2'>
                     <span className=' cursor-pointer' onClick={onEditHandler}>
                         <FaEdit size="1.1rem"/>
@@ -55,6 +60,7 @@ function ListHouseCard({address,baths,beds,description,imgUrl,regularPrice,timeS
                         <RiDeleteBin5Fill  size="1.1rem" color="red"/>
                     </span>
                 </div>
+            }
 
             </div>
 

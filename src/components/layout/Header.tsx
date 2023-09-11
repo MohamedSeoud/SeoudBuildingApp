@@ -35,7 +35,7 @@ const[showNav, setShowNav] = useState(false);
         </NavLink>
         
         <NavLink to={OFFER_PATH} className={`hover:bg-blue-600 cursor-pointer mx-3 p-4 rounded-3xl uppercase ${checkLocation(OFFER_PATH)?"bg-blue-600":""}`}>
-          offer
+          offers
         </NavLink>
 
         <NavLink to={checkLocation(SING_IN_PATH) ? SING_IN_PATH : PROFILE_PATH} className={`hover:bg-blue-600 cursor-pointer mx-3 p-4 rounded-3xl uppercase
