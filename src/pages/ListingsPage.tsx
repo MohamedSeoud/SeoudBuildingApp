@@ -57,12 +57,12 @@ function ListingsPage() {
      validateOnChange={false} validateOnBlur={false}
      >
          <Form>
-            <div className=' bg-green-100 min-h-screen py-[75px]  h-fit'>
+            <div className=' bg-green-100 min-h-screen py-[75px] '>
               <SwiperComponent/>
               
 
-              <div className=' grid grid-cols-1 lg:grid-cols-2 mx-20 my-6 gap-8 p-6 shadow-2xl bg-white rounded-lg h-fit '>
-                  <div className=' col-span-1 flex flex-col gap-3'>
+              <div className=' grid grid-cols-1 lg:grid-cols-2 mx-20 my-6 gap-8 p-6 shadow-2xl  bg-white rounded-lg  h-fit '>
+                  <div className=' col-span-1 flex flex-col gap-3 h-fit'>
                       <div className=' text-blue-800 font-bold text-3xl py-3'>
                           Room For {data.sellOrRent} with pool - {data.regularPrice}$/month
                       </div>
@@ -121,7 +121,7 @@ function ListingsPage() {
 
                   </div>
 
-                  <div className='col-span-1 w-[100%] h-[100%]'>
+                  <div className='col-span-1 h-[500px] w-[100%] lg:w-[100%] lg:h-[100%]'>
                       <MapComponent/>
                   </div>
 
