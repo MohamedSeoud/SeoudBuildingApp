@@ -11,4 +11,8 @@ export default defineConfig({
       plugins: [esbuildCommonjs(['react-moment'])],
     },
   },
+  base: "/Stakepool-Frontend/",
+  build: {
+    chunkSizeWarningLimit: 100000000
+  },
 });
